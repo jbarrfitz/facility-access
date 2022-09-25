@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import twilio from 'twilio';
+import { InboundSMSRequest } from '../../types/sms';
+
 const axios = require('axios');
 const { google } = require('googleapis');
 const moment = require('moment');
@@ -10,7 +12,7 @@ const accountSid = <string>process.env.ACCOUNT_SID;
 const token = <string>process.env.AUTH_TOKEN;
 
 export default async function inboundMessage(
-  req: NextApiRequest,
+  req: InboundSMSRequest,
   res: NextApiResponse
 ) {
   const messages = [];
