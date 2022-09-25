@@ -1,0 +1,28 @@
+name: Web
+on: push
+
+env:
+  ACCOUNT_SID: '${{ secrets.ACCOUNT_SID }}'
+  AUTH_TOKEN: '${{ secrets.AUTH_TOKEN }}'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn run build
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn run lint
