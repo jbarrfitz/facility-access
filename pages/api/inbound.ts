@@ -1,15 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import twilio from 'twilio';
+import { twiml } from 'twilio';
+import { google } from 'googleapis'
 import { InboundSMSRequest } from '../../types/sms';
-
-const axios = require('axios');
-const { google } = require('googleapis');
-const moment = require('moment');
-const MessagingResponse = require('twilio').twiml.MessagingResponse;
-
-const FROM_NUMBER = '+12064273176';
-const accountSid = <string>process.env.ACCOUNT_SID;
-const token = <string>process.env.AUTH_TOKEN;
+const { MessagingResponse } = twiml;
 
 export default async function inboundMessage(
   req: InboundSMSRequest,
@@ -21,7 +14,6 @@ export default async function inboundMessage(
     auth: 'AIzaSyBuYDZj2vbbDtW1XwnyhhDBEX9TdhR_zHM',
   });
 
-  // const calendar = 'jbarrowsfitzgerald@gmail.com';
   const calendar =
     'a7f4549fe542d67b14dbca0debd3c0c3ac9a4686f8cfccb3cc9e0610f5cbcedc@group.calendar.google.com';
 
@@ -31,8 +23,8 @@ export default async function inboundMessage(
   exitTime.setSeconds(enterTime.getSeconds() + 60);
 
   const currentEvents = await cal.freebusy
-    .query({
-      resource: {
+  .query({
+      requestBody: {
         // Set times to ISO strings as such
         timeMin: enterTime.toISOString(),
         timeMax: exitTime.toISOString(),
